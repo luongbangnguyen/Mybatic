@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="application.properties"/>
+    <settings>
+        <setting name="cacheEnable" value="true"/>
+    </settings>
+    <typeAliases>
+        <typeAlias type="org.java.batis.domain.Student" alias="Student"/>
+        <typeAlias type="org.java.batis.domain.Tutor" alias="Tutor"/>
+        <typeAlias type="org.java.batis.domain.Address" alias="Address"/>
+        <typeAlias type="org.java.batis.domain.Course" alias="Course"/>
+    </typeAliases>
+    <typeHandlers>
+        <typeHandler handler="org.java.batis.typehandlers.PhoneTypeHandler" />
+        <typeHandler handler="org.apache.ibatis.type.EnumTypeHandler" javaType="org.java.batis.domain.Gender"/>
+    </typeHandlers>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driverClassName}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="mappers/AddressMapper.xml"/>
+        <mapper resource="mappers/StudentMapper.xml"/>
+        <mapper resource="mappers/CourseMapper.xml"/>
+        <mapper resource="mappers/TutorMapper.xml"/>
+    </mappers>
+</configuration>

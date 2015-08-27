@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.java.batis.mappers.StudentMapper">
+
+    <resultMap id="StudentResult" type="Student">
+        <id property="studId" column="stud_id"/>
+        <result property="name" column="name"/>
+        <result property="email" column="email"/>
+        <result property="dob" column="dob"/>
+        <result property="pic" column="pic"/>
+    </resultMap>
+
+    <resultMap id="StudentWithAddressResult" type="Student" extends="StudentResult">
+        <id property="studId" column="stud_id"/>
+        <result property="name" column="name"/>
+        <result property="email" column="email"/>
+        <association property="address" resultMap="AddressResult" select="findAddressById"/>
+    </resultMap>
+
+    <select id="findAllStudents" resultMap="StudentResult">
+      SELECT  * FROM  STUDENTS
+    </select>
+    <select id="findStudentById" parameterType="int" resultType="Student">
+        SELECT STUD_ID AS STUDID, NAME, EMAIL, DOB FROM STUDENTS WHERE STUD_ID=#{Id}
+    </select>
+    <select id="selectStudentWithAddress" parameterType="int" resultMap="StudentWithAddressResult">
+      SELECT * FROM STUDENTS WHERE STUD_ID=#{id}
+    </select>
+    <select id="findAddressById" parameterType="int" resultMap="AddressResult">
+        SELECT * FROM ADDRESSES WHERE ADDR_ID=#{studId}
+    </select>
+    <insert id="insertStudent" parameterType="Student" useGeneratedKeys="true" keyProperty="studId">
+        INSERT INTO STUDENTS (NAME, EMAIL, PHONE) VALUES(#{name},#{email},#{phone})
+    </insert>
+</mapper>
